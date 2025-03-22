@@ -49,7 +49,6 @@ func UpdateAlbum(id int, album classes.Album) (classes.Album, error) {
 }
 
 func DeleteAlbum(id int) (classes.Album, error) {
-	fmt.Printf("Id: %d", id)
 	db, err := databases.ReturnFromDB()
 	if err != nil {
 		return classes.Album{}, fmt.Errorf("error deleting album: %f", err)

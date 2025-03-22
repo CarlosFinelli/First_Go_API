@@ -69,7 +69,6 @@ func (repo *ArtistRepository) GetAlbum() ([]classes.Album, error) {
 	rows, err := repo.db.Query(query)
 
 	if err != nil {
-		//fmt.Errorf("Error executing query: %v", err)
 		return nil, fmt.Errorf("error executing query: %v", err)
 	}
 
@@ -95,7 +94,6 @@ func (repo *ArtistRepository) GetAlbumById(id int) (classes.Album, error) {
 	}
 	var album classes.Album
 	for result.Next() {
-
 		var alb classes.Album
 		myerr := result.Scan(&alb.Id, &alb.Title, &alb.Artist, &alb.Price)
 		if myerr != nil {
@@ -149,7 +147,6 @@ func (repo *ArtistRepository) DeleteAlbum(id int) (classes.Album, error) {
 	if err != nil {
 		return classes.Album{}, fmt.Errorf("error getting the album for id %d: %s", id, err)
 	}
-	fmt.Printf("Album: %s", album.Artist)
 
 	query := "DELETE FROM album WHERE id = $1"
 	result, err := repo.db.Exec(query, id)

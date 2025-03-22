@@ -81,7 +81,6 @@ func DeleteAlbum(c *gin.Context) {
 	if err != nil {
 		c.IndentedJSON(http.StatusBadRequest, err)
 	}
-	fmt.Printf("Id: %d", test)
 	// id, converterr := strconv.Atoi(param)
 	// if converterr != nil {
 	// 	c.IndentedJSON(http.StatusBadRequest, fmt.Errorf("unsupported param: %e", converterr))
