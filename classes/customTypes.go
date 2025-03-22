@@ -1,8 +1,8 @@
 package classes
 
 type Album struct {
-	Id     int
-	Title  string
-	Artist string
-	Price  float32
+	Id     int `json:"id"`
+	Title  *string `json: "title"`
+	Artist *string `json: "artist"`
+	Price  *float32 `json: "price"`
 }

@@ -30,12 +30,22 @@ func ReturnById(id int) (classes.Album, error) {
 	return repo.GetAlbumById(id)
 }
 
-func RegisterAlbum() {
-
+func RegisterAlbum(album classes.Album) (classes.Album, error) {
+	db, err := databases.ReturnFromDB()
+	if err != nil {
+		return classes.Album{}, fmt.Errorf("error registering album: %v", err)
+	}
+	repo := repository.NewArtistRepository(db)
+	return repo.RegisterAlbum(album)
 }
 
-func UpdateAlbum() {
-
+func UpdateAlbum(id int, album classes.Album) (classes.Album, error) {
+	db, err := databases.ReturnFromDB()
+	if err != nil {
+		return classes.Album{}, fmt.Errorf("error connecting to database: %v", err)
+	}
+	repo := repository.NewArtistRepository(db)
+	return repo.UpdateAlbum(id, album)
 }
 
 func DeleteAlbum(id int) (classes.Album, error) {

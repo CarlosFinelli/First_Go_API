@@ -107,6 +107,43 @@ func (repo *ArtistRepository) GetAlbumById(id int) (classes.Album, error) {
 	return album, nil
 }
 
+func (repo *ArtistRepository) RegisterAlbum(album classes.Album) (classes.Album, error) {
+	query := "INSERT INTO album (title, artist, price) VALUES($1, $2, $3) RETURNING *"
+	result, err := repo.db.Query(query, album.Title, album.Artist, album.Price)
+	if err != nil {
+		return classes.Album{}, fmt.Errorf("error inserting album: %v", err)
+	}
+	var mAlbum classes.Album
+	for result.Next() {
+		var alb classes.Album
+		myerr := result.Scan(&alb.Id, &alb.Title, &alb.Artist, &alb.Price)
+		if myerr != nil {
+			fmt.Printf("My error: %v", myerr)
+			return classes.Album{}, fmt.Errorf("error scanning row: %v", err)
+		}
+		mAlbum = alb
+	}
+	return mAlbum, nil
+}
+
+func (repo *ArtistRepository) UpdateAlbum(id int, album classes.Album) (classes.Album, error) {
+	query := "UPDATE album SET title = $1, artist = $2, price = $3 WHERE id = $4 RETURNING *"
+	result, err := repo.db.Query(query, album.Title, album.Artist, album.Price, id)
+	if err != nil {
+		return classes.Album{}, fmt.Errorf("error updating album: %v", err)
+	}
+	var mAlbum classes.Album
+	for result.Next() {
+		var alb classes.Album
+		myErr := result.Scan(&alb.Id, &alb.Title, &alb.Artist, &alb.Price)
+		if myErr != nil {
+			return classes.Album{}, fmt.Errorf("error scanning row: %v", myErr)
+		}
+		mAlbum = alb
+	}
+	return mAlbum, nil
+}
+
 func (repo *ArtistRepository) DeleteAlbum(id int) (classes.Album, error) {
 	album, err := repo.GetAlbumById(id)
 	if err != nil {
